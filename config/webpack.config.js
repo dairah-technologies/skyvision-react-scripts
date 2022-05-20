@@ -566,6 +566,42 @@ module.exports = function (webpackEnv) {
               // See https://github.com/webpack/webpack/issues/6571
               sideEffects: true,
             },
+            // Skyvision modification:
+            // Added style loader to inject lazily for themes and normally for non-theme files.
+            {
+              test: /\.theme\.(less|css)$/i,
+              use: [
+                {
+                  loader: 'style-loader',
+                  options: { injectType: 'lazyStyleTag' }
+                },
+                'css-loader',
+                {
+                  loader: 'less-loader',
+                  options: {
+                    lessOptions: {
+                      javascriptEnabled: true,
+                    },
+                  },
+                },
+              ]
+            },
+            {
+              test: /\.less$/,
+              exclude: /\.theme\.(less|css)$/i,
+              use: [
+                'style-loader',
+                'css-loader',
+                {
+                  loader: 'less-loader',
+                  options: {
+                    lessOptions: {
+                      javascriptEnabled: true,
+                    },
+                  },
+                },
+              ]
+            },
             // Adds support for CSS Modules, but using SASS
             // using the extension .module.scss or .module.sass
             {
