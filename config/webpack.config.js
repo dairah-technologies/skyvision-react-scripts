@@ -82,6 +82,18 @@ const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
+const lessLoader = {
+  loader: 'less-loader',
+  options: {
+    lessOptions: {
+      modifyVars: {
+        'primary-color': '#1350fb',
+      },
+      javascriptEnabled: true,
+    },
+  },
+};
+
 const hasJsxRuntime = (() => {
   if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
     return false;
@@ -576,14 +588,7 @@ module.exports = function (webpackEnv) {
                   options: { injectType: 'lazyStyleTag' }
                 },
                 'css-loader',
-                {
-                  loader: 'less-loader',
-                  options: {
-                    lessOptions: {
-                      javascriptEnabled: true,
-                    },
-                  },
-                },
+                lessLoader,
               ]
             },
             {
@@ -592,14 +597,7 @@ module.exports = function (webpackEnv) {
               use: [
                 isEnvDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
                 'css-loader',
-                {
-                  loader: 'less-loader',
-                  options: {
-                    lessOptions: {
-                      javascriptEnabled: true,
-                    },
-                  },
-                },
+                lessLoader,
               ]
             },
             // Adds support for CSS Modules, but using SASS
