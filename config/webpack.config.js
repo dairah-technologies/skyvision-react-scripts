@@ -590,7 +590,7 @@ module.exports = function (webpackEnv) {
               test: /\.less$/,
               exclude: /\.theme\.(less|css)$/i,
               use: [
-                'style-loader',
+                isEnvDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
                 'css-loader',
                 {
                   loader: 'less-loader',
